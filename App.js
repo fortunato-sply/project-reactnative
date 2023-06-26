@@ -1,55 +1,26 @@
-import { useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import Logo from './assets/React-icon.svg.png';
-import CustomInput from './components/CustomInput';
+
+//firebase
+import app from './firebaseConfig';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import Login from './pages/Login';
+import List from './pages/List';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-
-  const setEmailInputValue = (value) => {
-    setEmail(value);
-  }
-
-  const setPasswordInputValue = (value) => {
-    setPassword(value);
-  }
-
   return (
-    <View style={styles.container}>
-      <Image
-        source={Logo}
-        style={{
-          width: 100,
-          height: 100,
-          marginBottom: 25,
-          resizeMode: 'contain',
-        }}
-      />
-
-      <View style={styles.divInput}>
-        <CustomInput
-          placeholder="E-mail"
-          value={email}
-          onChangeText={setEmailInputValue}
-        />
-
-        <CustomInput
-          placeholder="Password"
-          value={password}
-          onChangeText={setPasswordInputValue}
-          isPassword
-        />
-
-        <TouchableOpacity>
-          <View style={styles.button}>
-            <Text style={{ color: '#302850', fontSize: 16 }}>Entrar</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name='Login' component={Login} />
+        <Stack.Screen name='List' component={List} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
 const styles = StyleSheet.create({
