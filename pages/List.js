@@ -1,6 +1,7 @@
-import { Text, View } from 'react-native';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 export default function List() {
   const [transactions, setTransactions] = useState([]);
@@ -8,7 +9,7 @@ export default function List() {
   useEffect(() => {
     const getTransactions = async() => {
       try {
-        const response = await axios.get('http://localhost:3000/transactions');
+        const response = await axios.get('http://localhost:3000');
         if (response.status === 200) {
           setTransactions(response.data);
         }
@@ -19,6 +20,12 @@ export default function List() {
 
     getTransactions();
   }, [])
+
+  const navigation = useNavigation();
+
+  const OnHandleNewTransactionButton = () => {
+    navigation.navigate('NewTransaction')
+  }
 
   return (
     <View>
@@ -32,6 +39,33 @@ export default function List() {
           </View>
         )
       }) }
+      
+      <TouchableOpacity onPress={OnHandleNewTransactionButton}>
+          <View style={styles.button}>
+            <Text style={{ color: '#302850', fontSize: 16 }}>New Transaction</Text>
+          </View>
+        </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#433576',
+    alignItems: 'center',
+    paddingTop: 110
+  },
+  button: {
+    backgroundColor: "#00D8FF",
+    width: 156,
+    height: 45,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 12,
+  },
+  divInput: {
+    gap: 25,
+    alignItems: 'center',
+  }
+});

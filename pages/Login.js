@@ -15,13 +15,6 @@ export default function Login() {
 
   const auth = getAuth(app);
   const navigation = useNavigation();
-
-  useEffect(() => {
-    console.log(auth.currentUser)
-    if(auth.currentUser) {
-        navigation.navigate('List')
-    }
-  }, [auth.currentUser])
   
   const setEmailInputValue = (value) => {
     setEmail(value);
@@ -43,6 +36,7 @@ export default function Login() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         console.log(userCredentials);
+        navigation.navigate('List');
       }).catch((err) => {
         console.error(err);
       })
